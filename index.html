@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EXXOTIC </title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dark">
+  <div class="dashboard-container">
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+    
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon"></div>FlowDesk
+        </div>
+        <button class="panel-close sidebar-close" id="sidebar-close" type="button" aria-label="Close navigation menu">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+      <nav class="nav-group">
+        <div class="nav-label">Main Menu</div>
+        <a href="#" class="nav-item active"><i class="ph ph-squares-four"></i> Dashboard</a>
+        <a href="#" class="nav-item"><i class="ph ph-arrows-left-right"></i> Transactions</a>
+        <a href="#" class="nav-item"><i class="ph ph-wallet"></i> My Wallet</a>
+        <a href="#" class="nav-item"><i class="ph ph-credit-card"></i> Cards</a>
+        <a href="#" class="nav-item"><i class="ph ph-chart-line-up"></i> Analytics</a>
+        <a href="#" class="nav-item"><i class="ph ph-envelope-simple"></i> Messages</a>
+      </nav>
+      <nav class="nav-group sidebar-bottom">
+        <div class="nav-label">Settings</div>
+        <a href="#" class="nav-item"><i class="ph ph-gear"></i> Preferences</a>
+        <a href="#" class="nav-item"><i class="ph ph-shield-check"></i> Security</a>
+        <a href="#" class="nav-item"><i class="ph ph-user"></i> Account</a>
+        <a href="#" class="nav-item text-warning" style="margin-top:20px; color: var(--warning)"><i class="ph ph-sign-out"></i> Log Out</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-title">
+          <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation menu" aria-controls="sidebar" aria-expanded="false">
+            <i class="ph ph-list"></i>
+          </button>
+          <h1 class="page-title">Dashboard Overview</h1>
+        </div>
+        <div class="topbar-actions">
+          <div class="search-bar">
+            <i class="ph ph-magnifying-glass"></i>
+            <input type="text" placeholder="Search data, transactions..." />
+          </div>
+          <button class="theme-toggle" id="theme-toggle" title="Toggle Theme">
+            <i class="ph ph-sun"></i>
+          </button>
+          <img src="https://picsum.photos/seed/tactical/100/100" alt="Profile" class="profile-trigger" id="profile-toggle" crossorigin="anonymous" referrerpolicy="no-referrer" title="Toggle System Admin Sidebar" />
+        </div>
+      </header>
+
+      <section class="wallet-stats-grid">
+        <!-- Wallet Card -->
+        <div class="credit-card">
+           <div style="display:flex; justify-content:space-between; align-items:center;">
+              <i class="ph ph-sim-card" style="font-size:32px;"></i>
+              <i class="ph ph-contactless-payment" style="font-size:24px;"></i>
+           </div>
+           <div>
+              <div class="card-label">TOTAL BALANCE</div>
+              <div class="card-balance">$ 34,712.14</div>
+           </div>
+        </div>
+        
+        <!-- Income Stat -->
+        <div class="stat-card">
+           <div class="card-label">Monthly Income</div>
+           <div style="display:flex; align-items:center; gap: 12px; margin-top:8px;">
+             <div class="stat-value">$7,200</div>
+             <div class="badge success"><i class="ph ph-trend-up"></i> 3.7%</div>
+           </div>
+           <p style="font-size:12px; color:var(--gray); margin-top:4px;">Income compared to last month</p>
+        </div>
+        
+        <!-- Expense Stat -->
+        <div class="stat-card">
+           <div class="card-label">Monthly Expanse</div>
+           <div style="display:flex; align-items:center; gap: 12px; margin-top:8px;">
+             <div class="stat-value">$3,534</div>
+             <div class="badge warning"><i class="ph ph-trend-down"></i> 1.2%</div>
+           </div>
+           <p style="font-size:12px; color:var(--gray); margin-top:4px;">Expense compared to last month</p>
+        </div>
+      </section>
+
+      <section class="charts-grid">
+         <div class="chart-box">
+            <div class="section-title">
+              <span>Activity Graph</span>
+              <select style="background:transparent; border:1px solid var(--border-color); color:var(--text-color); padding:4px 8px; border-radius:4px; outline:none; font-family:inherit;"><option>This Year</option><option>Last Month</option></select>
+            </div>
+            <div style="height: 250px;"><canvas id="activityChart"></canvas></div>
+         </div>
+         
+         <div class="chart-box monthly-card">
+            <div class="section-title monthly-title">Monthly In Out</div>
+            <div class="monthly-chart-wrap">
+              <canvas id="monthlyChart"></canvas>
+              <div class="monthly-chart-center">
+                 <h3>$34,712</h3>
+                 <span>(100%)</span>
+              </div>
+            </div>
+            
+            <div class="monthly-legend">
+                <div class="legend-item"><span style="background:var(--success);"></span> Income</div>
+                <div class="legend-item"><span style="background:var(--primary);"></span> Invested</div>
+                <div class="legend-item"><span style="background:var(--warning);"></span> Expense</div>
+                <div class="legend-item"><span style="background:var(--gray);"></span> Unexpected</div>
+            </div>
+         </div>
+      </section>
+
+      <section class="charts-grid" style="grid-template-columns: 1fr 1fr;">
+        <!-- Recent Transactions -->
+        <div class="chart-box" style="padding:0; overflow:hidden;">
+            <div class="section-title" style="padding:24px 24px 0 24px; margin-bottom:16px;">
+              <span>Recent Transactions</span>
+              <a href="#" style="font-size:12px; color:var(--primary); text-decoration:none;">View All</a>
+            </div>
+            <table class="transaction-table" style="width:100%; border-collapse:collapse; text-align:left;">
+              <thead style="background:var(--hover-bg); font-size:12px; color:var(--gray); text-transform:uppercase; letter-spacing:1px;">
+                <tr>
+                  <th style="padding:12px 24px; font-weight:600;">Receiver</th>
+                  <th style="padding:12px 24px; font-weight:600;">Date</th>
+                  <th style="padding:12px 24px; font-weight:600; text-align:right;">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border-color);">
+                  <td style="padding:16px 24px;">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                      <div style="width:32px; height:32px; border-radius:4px; background:var(--hover-bg); display:flex; align-items:center; justify-content:center; color:var(--text-color);"><i class="ph ph-spotify-logo" style="font-size:18px;"></i></div>
+                      <span style="font-weight:500;">Spotify Family</span>
+                    </div>
+                  </td>
+                  <td style="padding:16px 24px; color:var(--gray); font-size:14px;">Oct 24, 2023</td>
+                  <td style="padding:16px 24px; font-weight:600; font-family:monospace; text-align:right;">-$15.99</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border-color);">
+                  <td style="padding:16px 24px;">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                      <div style="width:32px; height:32px; border-radius:4px; background:var(--hover-bg); display:flex; align-items:center; justify-content:center; color:var(--text-color);"><i class="ph ph-briefcase" style="font-size:18px;"></i></div>
+                      <span style="font-weight:500;">Upwork</span>
+                    </div>
+                  </td>
+                  <td style="padding:16px 24px; color:var(--gray); font-size:14px;">Oct 21, 2023</td>
+                  <td style="padding:16px 24px; font-weight:600; font-family:monospace; color:var(--success); text-align:right;">+$850.00</td>
+                </tr>
+                <tr>
+                  <td style="padding:16px 24px;">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                      <div style="width:32px; height:32px; border-radius:4px; background:var(--hover-bg); display:flex; align-items:center; justify-content:center; color:var(--text-color);"><i class="ph ph-shopping-cart" style="font-size:18px;"></i></div>
+                      <span style="font-weight:500;">Netflix Premium</span>
+                    </div>
+                  </td>
+                  <td style="padding:16px 24px; color:var(--gray); font-size:14px;">Oct 18, 2023</td>
+                  <td style="padding:16px 24px; font-weight:600; font-family:monospace; text-align:right;">-$119.00</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+
+        <!-- Expense Bars -->
+        <div class="bars-container" style="justify-content:center;">
+           <div class="section-title" style="margin-bottom:0;">Expense Breakdown</div>
+           <div class="progress-item">
+              <div class="progress-label">Income</div>
+              <div class="progress-percent">36%</div>
+              <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:36%; background:var(--success);"></div></div>
+           </div>
+           <div class="progress-item">
+              <div class="progress-label">Expense</div>
+              <div class="progress-percent">27%</div>
+              <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:27%; background:var(--warning);"></div></div>
+           </div>
+           <div class="progress-item">
+              <div class="progress-label">Invested</div>
+              <div class="progress-percent">20%</div>
+              <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:20%; background:var(--primary);"></div></div>
+           </div>
+           <div class="progress-item">
+              <div class="progress-label">Unexpected</div>
+              <div class="progress-percent">17%</div>
+              <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:17%; background:var(--gray);"></div></div>
+           </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="dashboard-footer">
+        &copy; All rights reserved. ASIM FAYYAZ
+      </footer>
+
+    </main>
+
+    <!-- Right Panel -->
+    <aside class="right-panel">
+      <div class="profile-header">
+         <div class="profile-info">
+            <div class="profile-name">Vanguard Protocol</div>
+            <div class="profile-role">System Admin</div>
+         </div>
+         <img src="https://picsum.photos/seed/tactical/100/100" alt="Avatar" class="profile-avatar" crossorigin="anonymous" referrerpolicy="no-referrer" />
+         <button class="panel-close profile-close" id="profile-close" type="button" aria-label="Close profile panel">
+          <i class="ph ph-x"></i>
+         </button>
+      </div>
+
+      <div class="quick-transfer box-wrapper border border-gray">
+        <div class="section-title" style="margin-bottom:12px;">Quick Transfer</div>
+        <div style="display:flex; gap:12px; overflow-x:auto; padding-bottom:8px; margin-bottom:16px;" class="custom-scrollbar">
+          <div style="display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer;">
+             <div style="width:48px; height:48px; border-radius:50%; border:1px solid var(--border-color); display:flex; align-items:center; justify-content:center; color:var(--gray); transition:all 0.2s;" onmouseover="this.style.color='var(--text-color)';this.style.borderColor='var(--text-color)';" onmouseout="this.style.color='var(--gray)';this.style.borderColor='var(--border-color)';">
+                <i class="ph ph-plus" style="font-size:20px;"></i>
+             </div>
+             <span style="font-size:11px; font-weight:500;">Add New</span>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer;">
+             <img src="https://picsum.photos/seed/face1/100/100" style="width:48px; height:48px; border-radius:50%; object-fit:cover; filter:grayscale(100%); transition:filter 0.3s;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'" crossorigin="anonymous" referrerpolicy="no-referrer" />
+             <span style="font-size:11px; font-weight:500;">Sarah</span>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer;">
+             <img src="https://picsum.photos/seed/face6/100/100" style="width:48px; height:48px; border-radius:50%; object-fit:cover; filter:grayscale(100%); transition:filter 0.3s;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'" crossorigin="anonymous" referrerpolicy="no-referrer" />
+             <span style="font-size:11px; font-weight:500;">Asim</span>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer;">
+             <img src="https://picsum.photos/seed/face3/100/100" style="width:48px; height:48px; border-radius:50%; object-fit:cover; filter:grayscale(100%); transition:filter 0.3s;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'" crossorigin="anonymous" referrerpolicy="no-referrer" />
+             <span style="font-size:11px; font-weight:500;">Ali</span>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; justify-content:space-between; background:var(--hover-bg); padding:12px 16px; border-radius:6px; border:1px solid var(--border-color);">
+           <span style="font-weight:700; font-family:monospace; font-size:16px;">$ 0.00</span>
+           <button class="btn btn-primary" style="padding:6px 16px; font-size:12px;">Send <i class="ph ph-paper-plane-right" style="margin-left:4px;"></i></button>
+        </div>
+      </div>
+
+      <div class="notification-section" style="flex: 1;">
+         <div class="section-title">Notification <i class="ph ph-sliders"></i></div>
+         <p style="font-size:12px; color:var(--gray); margin-bottom:12px; font-weight:600; text-transform:uppercase; letter-spacing:1px;">Today</p>
+         <div class="notification-list">
+            <div class="notif-item">
+               <img src="https://picsum.photos/seed/user1/100/100" class="notif-avatar" crossorigin="anonymous" referrerpolicy="no-referrer" />
+               <div class="notif-content">
+                 <span class="notif-title">Asim sent some money</span>
+                 <span class="notif-desc">You received <strong style="color:var(--success)">$240</strong></span>
+               </div>
+            </div>
+            <div class="notif-item">
+               <img src="https://picsum.photos/seed/user2/100/100" class="notif-avatar" crossorigin="anonymous" referrerpolicy="no-referrer" />
+               <div class="notif-content">
+                 <span class="notif-title">Transferred money to Fara</span>
+                 <span class="notif-desc">You sent <strong style="color:var(--warning)">$120</strong></span>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <!-- Promo Box -->
+      <div class="promo-card">
+          <i class="ph ph-fingerprint" style="font-size:48px; margin-bottom:12px; color:#0A0B0E;"></i>
+          <h3 class="promo-title">VERIFY ACCOUNT</h3>
+          <p class="promo-desc">Secure your assets by verifying your biometric data now.</p>
+          <button class="btn">Verify now</button>
+      </div>
+    </aside>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
